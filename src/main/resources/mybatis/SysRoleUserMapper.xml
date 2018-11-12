@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.SysRoleUserDao">
+	<select id="list" resultType="com.example.demo.domain.SysRoleUser">
+		select * from sys_role_user u
+        <where>  
+		  	<if test="id != null and userId != ''"> and u.id = #{id} </if>
+		  	<if test="sysUserId != null and sysUserId != ''"> and u.sys_user_id = #{sysUserId} </if>
+		  	<if test="sysRoleId != null and sysRoleId != ''"> and u.sys_role_id = #{sysRoleId} </if>
+		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by u.id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+</mapper>
